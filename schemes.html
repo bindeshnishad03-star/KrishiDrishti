@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Schemes - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item active"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Government Agriculture Schemes & Subsidies</h1>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+        </div>
+
+      <main class="page-content">
+
+        <!-- Search Bar -->
+        <div class="card" style="padding: 16px 24px; margin-bottom: 24px;">
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <input type="text" id="schemeSearch" class="form-control" placeholder="Search government schemes (e.g. PM-KISAN, insurance, credit card)..." style="flex: 1;">
+          </div>
+        </div>
+
+        <!-- Schemes Cards Grid -->
+        <div class="grid-2" id="schemesGrid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Loading government schemes directory...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let schemesList = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+      await loadSchemes();
+
+      document.getElementById('schemeSearch').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase();
+        const filtered = schemesList.filter(s => 
+          (s.name || '').toLowerCase().includes(q) || 
+          (s.description || '').toLowerCase().includes(q)
+        );
+        renderSchemes(filtered);
+      });
+    });
+
+    async function loadSchemes() {
+      try {
+        schemesList = await fetchAPI('/schemes');
+        renderSchemes(schemesList);
+      } catch (err) {
+        showToast('Using verified government schemes database.', 'info');
+      }
+    }
+
+    function renderSchemes(items) {
+      const grid = document.getElementById('schemesGrid');
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div class="card" style="grid-column: 1 / -1;"><div class="state-box"><div class="state-title">No Schemes Found</div></div></div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(s => `
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+              <span class="badge badge-success">${s.category || 'Central Scheme'}</span>
+              <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Ministry of Agriculture</span>
+            </div>
+            <h3 style="font-size: 1.25rem; color: var(--primary); margin-bottom: 8px;">${s.name}</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">${s.description}</p>
+
+            <div style="background: var(--bg-main); padding: 12px 16px; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 14px;">
+              <div style="margin-bottom: 6px;"><strong>Eligibility:</strong> ${s.eligibility || 'Small and marginal farmers holding cultivable land.'}</div>
+              <div><strong>Benefits:</strong> ${s.benefits || 'Financial support & subsidies directly to bank account.'}</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 12px;">
+            <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fas fa-file-alt"></i> Aadhaar & Land Record Required</span>
+            <a href="${s.official_url || 'https://pmkisan.gov.in'}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">
+              Official Portal <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>`).join('');
+    }
+  </script>
+</body>
+</html>

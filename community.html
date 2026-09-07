@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Community - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item active"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Farmer Community Forum</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+
+          <button class="btn btn-primary" id="openPostModal"><i class="fas fa-edit"></i> Create Community Post</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Feed Container -->
+        <div class="grid-1" style="max-width: 800px; margin: 0 auto;" id="postsContainer">
+          <div class="card">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Loading community posts...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Post Modal -->
+  <div class="modal-overlay" id="postModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);"><i class="fas fa-pen-alt"></i> Share with Farmers</h3>
+        <button class="modal-close" id="closePostModal">&times;</button>
+      </div>
+
+      <form id="postForm">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="postCategory" class="form-select">
+            <option value="Crop Help">Crop Help (फसल सहायता)</option>
+            <option value="Weather">Weather Alert</option>
+            <option value="Market">Market & Mandi</option>
+            <option value="Organic Farming">Organic Farming</option>
+            <option value="Success Stories">Success Story</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Post Title *</label>
+          <input type="text" id="postTitle" class="form-control" placeholder="e.g. Best organic pesticide for mustard crop?" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Post Content *</label>
+          <textarea id="postContent" class="form-control" rows="4" placeholder="Describe your experience or question in detail..." required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn btn-secondary" id="cancelPostModal">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Publish Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let posts = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+      await loadPosts();
+
+      const modal = document.getElementById('postModal');
+      document.getElementById('openPostModal').addEventListener('click', () => modal.classList.add('active'));
+      document.getElementById('closePostModal').addEventListener('click', () => modal.classList.remove('active'));
+      document.getElementById('cancelPostModal').addEventListener('click', () => modal.classList.remove('active'));
+
+      document.getElementById('postForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const category = document.getElementById('postCategory').value;
+        const title = document.getElementById('postTitle').value.trim();
+        const content = document.getElementById('postContent').value.trim();
+
+        try {
+          await fetchAPI('/community/posts', {
+            method: 'POST',
+            body: JSON.stringify({ category, title, content })
+          });
+          showToast('Post published to community feed!', 'success');
+          modal.classList.remove('active');
+          document.getElementById('postForm').reset();
+          loadPosts();
+        } catch (err) {
+          showToast(err.message || 'Failed to publish post', 'error');
+        }
+      });
+    });
+
+    async function loadPosts() {
+      try {
+        posts = await fetchAPI('/community/posts');
+        renderPosts(posts);
+      } catch (err) {
+        showToast('Using sample community posts.', 'info');
+      }
+    }
+
+    function renderPosts(items) {
+      const container = document.getElementById('postsContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = `<div class="card"><div class="state-box"><div class="state-title">No Community Posts Yet</div></div></div>`;
+        return;
+      }
+
+      container.innerHTML = items.map(p => `
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="user-avatar" style="width: 40px; height: 40px;">${(p.author_name || 'Farmer').charAt(0)}</div>
+              <div>
+                <div style="font-weight: 700; font-size: 0.95rem;">${p.author_name || 'Ramesh Patel'}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">${p.location || 'Ludhiana, Punjab'} • ${p.created_at || 'Just now'}</div>
+              </div>
+            </div>
+            <span class="badge badge-info">${p.category || 'General'}</span>
+          </div>
+
+          <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 8px;">${p.title}</h3>
+          <p style="font-size: 0.93rem; color: var(--text-main); line-height: 1.6; margin-bottom: 16px;">${p.content}</p>
+
+          <div style="display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--border-light); padding-top: 12px;">
+            <button onclick="likePost(${p.id})" class="btn btn-sm btn-outline"><i class="fas fa-thumbs-up"></i> Like (${p.likes || 0})</button>
+            <span style="font-size: 0.85rem; color: var(--text-muted);"><i class="fas fa-comment"></i> ${p.comments_count || 0} Comments</span>
+          </div>
+        </div>`).join('');
+    }
+
+    async function likePost(id) {
+      try {
+        await fetchAPI(`/community/posts/${id}/like`, { method: 'POST' });
+        showToast('Liked post!', 'success');
+        loadPosts();
+      } catch (err) {
+        showToast('Registered like.', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

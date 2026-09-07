@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;">
+
+  <div class="card" style="width: 100%; max-width: 440px; padding: 36px; box-shadow: var(--shadow-lg);">
+    <div style="text-align: center; margin-bottom: 28px;">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" style="width: 56px; height: 56px; border-radius: 12px; margin-bottom: 12px;">
+      </a>
+      <h2 style="font-size: 1.6rem; color: var(--primary);">KrishiDrishti Login</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Smart Farming, Better Future</p>
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <div style="position: relative;">
+          <input type="email" id="email" class="form-control" placeholder="farmer@krishidrishti.in" required style="padding-left: 40px;">
+          <i class="fas fa-envelope" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="password-input-group">
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required style="padding-left: 40px;">
+          <i class="fas fa-lock" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+          <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+        </div>
+      </div>
+
+      <div id="loginError" style="display: none; background: var(--danger-light); color: var(--danger); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;"></div>
+
+      <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem;">
+        <i class="fas fa-sign-in-alt"></i> Login to Platform
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);">
+      Don't have a KrishiDrishti account? <a href="register.html" style="font-weight: 600;">Register Here</a>
+    </div>
+
+    <div style="margin-top: 20px; padding: 12px; background: var(--mint-light); border-radius: 8px; font-size: 0.8rem; color: var(--primary-light); text-align: center;">
+      <strong>Demo Development Credentials:</strong><br>
+      Email: <code>farmer@krishidrishti.in</code> | Password: <code>farmer123</code>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (Auth.isAuthenticated()) {
+        window.location.href = '/dashboard.html';
+      }
+
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+
+      togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+      });
+
+      const loginForm = document.getElementById('loginForm');
+      const loginBtn = document.getElementById('loginBtn');
+      const loginError = document.getElementById('loginError');
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.style.display = 'none';
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          loginError.textContent = 'Please provide both email and password.';
+          loginError.style.display = 'block';
+          return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+
+        try {
+          const res = await fetch(`${window.KRISHI_CONFIG.API_BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.message || 'Invalid email or password');
+          }
+
+          Auth.saveAuth(data.token, data.user);
+          showToast('Login successful! Redirecting...', 'success');
+
+          setTimeout(() => {
+            window.location.href = '/dashboard.html';
+          }, 500);
+        } catch (err) {
+          loginError.textContent = err.message || 'Login failed. Please check your credentials.';
+          loginError.style.display = 'block';
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Platform';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

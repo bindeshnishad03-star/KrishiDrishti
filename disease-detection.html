@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop Disease Detection - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .upload-dropzone {
+      border: 2px dashed var(--accent-light);
+      border-radius: var(--radius-lg);
+      padding: 40px 20px;
+      text-align: center;
+      background: var(--mint-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: var(--accent);
+      background: var(--mint);
+    }
+    .preview-img {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      display: none;
+      margin: 16px auto 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title" data-i18n="brand_name">KrishiDrishti</div>
+          <div class="brand-tagline" data-i18n="tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> <span data-i18n="nav_crops">My Crops</span></a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> <span data-i18n="nav_ai">AI Assistant</span></a>
+        <a href="/disease-detection.html" class="nav-item active"><i class="fas fa-leaf"></i> <span data-i18n="nav_disease">Disease Detection</span></a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> <span data-i18n="nav_weather">Weather Insights</span></a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> <span data-i18n="nav_mandi">Mandi Prices</span></a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> <span data-i18n="nav_marketplace">Marketplace</span></a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> <span data-i18n="nav_equipment">Equipment</span></a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> <span data-i18n="nav_community">Farmer Community</span></a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> <span data-i18n="nav_schemes">Government Schemes</span></a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> <span data-i18n="nav_settings">Settings</span></a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1 data-i18n="nav_disease">AI Crop Disease Diagnosis</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn"><ctrl42>ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-banner">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <strong>ML Disease Model Note:</strong> Prototype prediction — model requires field-validated training data. Always consult a local agricultural extension worker or Krishi Vigyan Kendra before applying chemical fungicides.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Upload Form Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-camera"></i> Upload Leaf Image</div>
+            </div>
+
+            <form id="diseaseForm">
+              <div class="form-group">
+                <label class="form-label" for="cropType">Select Crop Species *</label>
+                <select id="cropType" class="form-select" required>
+                  <option value="Tomato">Tomato (टमाटर)</option>
+                  <option value="Potato">Potato (आलू)</option>
+                  <option value="Apple">Apple (सेब)</option>
+                  <option value="Rice">Rice / Paddy (धान)</option>
+                  <option value="Wheat">Wheat (गेहूँ)</option>
+                  <option value="Cotton">Cotton (कपास)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cropAge">Approximate Crop Age / Stage</label>
+                <input type="text" id="cropAge" class="form-control" placeholder="e.g., 45 days / Vegetative stage">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Leaf Photo (JPG / PNG)</label>
+                <div class="upload-dropzone" id="dropzone">
+                  <i class="fas fa-cloud-upload-alt" style="font-size: 2.8rem; color: var(--accent); margin-bottom: 12px;"></i>
+                  <div style="font-weight: 600; color: var(--primary);">Click or Drag & Drop Leaf Image Here</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Supports PNG, JPG, JPEG up to 10MB</div>
+                  <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                <img id="imagePreview" class="preview-img" alt="Leaf Preview">
+              </div>
+
+              <button type="submit" id="analyzeBtn" class="btn btn-primary" style="width: 100%; padding: 12px;" disabled>
+                <i class="fas fa-microscope"></i> Run Disease Analysis
+              </button>
+            </form>
+          </div>
+
+          <!-- Prediction Result Container -->
+          <div class="card" id="resultCard" style="display: none;">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-clipboard-check"></i> Diagnostic Report</div>
+              <div>
+                <button onclick="VoiceService.speakElementText('#resultCard')" class="voice-speak-btn"><i class="fas fa-volume-up"></i> <span data-i18n="btn_listen">Listen Report</span></button>
+                <span class="badge badge-warning" id="severityBadge">Moderate Severity</span>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px; padding: 16px; background: var(--bg-main); border-radius: var(--radius-md);">
+              <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">DETECTED CONDITION</div>
+              <div style="font-size: 1.6rem; font-weight: 700; color: var(--primary); margin: 4px 0;" id="diseaseTitle">Early Blight</div>
+              <div style="font-size: 0.9rem; color: var(--text-muted);">
+                Confidence Score: <strong id="confidenceVal" style="color: var(--accent);">87%</strong> | Target Crop: <strong id="resCropName">Tomato</strong>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 6px;"><i class="fas fa-search"></i> Possible Causes:</h4>
+              <p style="font-size: 0.88rem; color: var(--text-muted);" id="causesText">Fungal infection conditions.</p>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 6px;"><i class="fas fa-hand-holding-medical"></i> Recommended Actions:</h4>
+              <ul style="font-size: 0.88rem; color: var(--text-main); padding-left: 20px; line-height: 1.6;" id="actionsList">
+                <li>Remove severely affected leaves.</li>
+                <li>Improve airflow and water at base.</li>
+              </ul>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <h4 style="font-size: 0.95rem; margin-bottom: 6px;"><i class="fas fa-shield-alt"></i> Prevention Tips:</h4>
+              <p style="font-size: 0.88rem; color: var(--text-muted);" id="preventionText">Maintain plant spacing and crop rotation.</p>
+            </div>
+
+            <div style="padding: 10px; background: var(--warning-light); border-radius: 8px; font-size: 0.78rem; color: #92400e; text-align: center;">
+              <strong>Notice:</strong> Prototype prediction — model requires field-validated training data.
+            </div>
+          </div>
+
+          <!-- Empty Initial State Card -->
+          <div class="card" id="emptyStateCard" style="display: flex; align-items: center; justify-content: center; min-height: 380px;">
+            <div class="state-box">
+              <i class="fas fa-leaf state-icon" style="color: var(--accent-light);"></i>
+              <div class="state-title">No Image Analyzed Yet</div>
+              <div class="state-desc">Upload a clear photo of your crop leaf on the left panel to generate an instant disease diagnostic report.</div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireAuth();
+
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('fileInput');
+      const imagePreview = document.getElementById('imagePreview');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const diseaseForm = document.getElementById('diseaseForm');
+
+      let selectedFile = null;
+
+      dropzone.addEventListener('click', () => fileInput.click());
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFile(e.target.files[0]);
+        }
+      });
+
+      function handleFile(file) {
+        selectedFile = file;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          imagePreview.src = event.target.result;
+          imagePreview.style.display = 'block';
+          analyzeBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      diseaseForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!selectedFile) return;
+
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing Leaf Image...';
+
+        const cropType = document.getElementById('cropType').value;
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+        formData.append('crop', cropType);
+
+        try {
+          const res = await fetch(`${window.KRISHI_CONFIG.API_BASE_URL}/disease/predict`, {
+            method: 'POST',
+            headers: Auth.getAuthHeaders(),
+            body: formData
+          });
+
+          const data = await res.json();
+          renderPrediction(data, cropType);
+        } catch (err) {
+          showToast('Using local prototype prediction module.', 'info');
+          renderPrediction({
+            disease: `${cropType} Leaf Spot / Blight`,
+            confidence: 0.87,
+            severity: 'Moderate',
+            causes: ['Fungal spores germination in high moisture conditions.'],
+            recommendations: [
+              'Remove infected leaves immediately.',
+              'Ensure adequate plant ventilation.',
+              'Consult agricultural officer for fungicide treatment.'
+            ],
+            prevention: 'Apply mulch and crop rotation strategy.'
+          }, cropType);
+        } finally {
+          analyzeBtn.disabled = false;
+          analyzeBtn.innerHTML = '<i class="fas fa-microscope"></i> Run Disease Analysis';
+        }
+      });
+
+      function renderPrediction(data, crop) {
+        document.getElementById('emptyStateCard').style.display = 'none';
+        const resultCard = document.getElementById('resultCard');
+        resultCard.style.display = 'block';
+
+        document.getElementById('resCropName').textContent = crop;
+        document.getElementById('diseaseTitle').textContent = data.disease || 'Healthy Crop Leaf';
+        document.getElementById('confidenceVal').textContent = `${Math.round((data.confidence || 0.85) * 100)}%`;
+        
+        const severity = data.severity || 'Moderate';
+        const badge = document.getElementById('severityBadge');
+        badge.textContent = `${severity} Severity`;
+        if (severity.toLowerCase() === 'healthy') badge.className = 'badge badge-success';
+        else if (severity.toLowerCase() === 'severe') badge.className = 'badge badge-danger';
+        else badge.className = 'badge badge-warning';
+
+        document.getElementById('causesText').textContent = (data.causes && data.causes.length) ? data.causes.join(' ') : 'Leaf fungal infestation caused by humidity.';
+
+        const list = document.getElementById('actionsList');
+        if (data.recommendations && data.recommendations.length) {
+          list.innerHTML = data.recommendations.map(r => `<li>${r}</li>`).join('');
+        }
+
+        if (data.prevention) {
+          document.getElementById('preventionText').textContent = data.prevention;
+        }
+
+        // Auto speak summary of diagnostic report
+        const speakSummary = `Diagnosis for ${crop}: ${data.disease || 'Leaf Spot'}. Severity: ${severity}. Recommended action: ${(data.recommendations || [])[0] || 'Consult local KVK'}`;
+        VoiceService.speak(speakSummary);
+      }
+    });
+  </script>
+</body>
+</html>

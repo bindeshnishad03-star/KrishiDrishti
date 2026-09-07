@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Insights - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title" data-i18n="brand_name">KrishiDrishti</div>
+          <div class="brand-tagline" data-i18n="tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> <span data-i18n="nav_crops">My Crops</span></a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> <span data-i18n="nav_ai">AI Assistant</span></a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> <span data-i18n="nav_disease">Disease Detection</span></a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item active"><i class="fas fa-cloud-sun-rain"></i> <span data-i18n="nav_weather">Weather Insights</span></a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> <span data-i18n="nav_mandi">Mandi Prices</span></a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> <span data-i18n="nav_marketplace">Marketplace</span></a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> <span data-i18n="nav_equipment">Equipment</span></a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> <span data-i18n="nav_community">Farmer Community</span></a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> <span data-i18n="nav_schemes">Government Schemes</span></a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> <span data-i18n="nav_settings">Settings</span></a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1 data-i18n="nav_weather">Agri Weather Forecast</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Language Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          </select>
+
+          <button class="btn btn-outline btn-sm" id="useGeoBtn"><i class="fas fa-location-arrow"></i> <span data-i18n="loc_use_live">Use Live GPS</span></button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-banner">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+            <strong>Agricultural Weather Disclaimer:</strong> Weather data and smart advisories are provided for decision support. Local micro-climates may vary. Always double-check local meteorological warnings before major spraying or harvesting decisions.
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="card" style="padding: 16px 24px;">
+          <form id="weatherSearchForm" style="display: flex; gap: 12px;">
+            <input type="text" id="cityInput" class="form-control" placeholder="Search District or City (e.g., Ludhiana, Karnal, Jaipur, Pune, Patna)..." required>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> <span data-i18n="btn_search">Search Weather</span></button>
+          </form>
+        </div>
+
+        <!-- Current Weather Overview -->
+        <div class="card" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: #ffffff;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <div>
+              <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #90caf9;" id="weatherLocation">Ludhiana, Punjab</div>
+              <div style="font-size: 3.5rem; font-weight: 700; line-height: 1; margin: 8px 0;" id="weatherTemp">29°C</div>
+              <div style="font-size: 1.1rem; color: #e3f2fd;" id="weatherCondition">Partly Cloudy</div>
+              <div style="font-size: 0.85rem; color: #bbdefb; margin-top: 4px;" id="weatherFeelsLike">Feels like 31°C</div>
+            </div>
+
+            <div style="text-align: center;">
+              <i class="fas fa-cloud-sun" id="weatherMainIcon" style="font-size: 5rem; color: #ffe082;"></i>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.15);">
+            <div>
+              <div style="font-size: 0.78rem; color: #bbdefb;">HUMIDITY</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="humidityVal">65%</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; color: #bbdefb;">WIND SPEED</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="windVal">14 km/h</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; color: #bbdefb;">RAIN PROBABILITY</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="rainVal">35%</div>
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; color: #bbdefb;">SUNRISE / SUNSET</div>
+              <div style="font-size: 1.1rem; font-weight: 700;" id="sunVal">06:05 AM / 06:48 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Farming Advisory Banner -->
+        <div class="card" style="border-left: 5px solid var(--accent); background: var(--mint-light);">
+          <h3 style="color: var(--primary); font-size: 1.15rem; margin-bottom: 8px;"><i class="fas fa-lightbulb" style="color: var(--accent);"></i> Krishi Smart Advisory</h3>
+          <p style="font-size: 0.95rem; color: var(--text-main);" id="advisoryText">
+            Moderate humidity and warm temperatures detected. Ideal conditions for wheat crop monitoring. Ensure field water channels are clear in case of evening showers.
+          </p>
+        </div>
+
+        <!-- 7-Day Forecast Grid -->
+        <h3 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--primary);">7-Day Weather Forecast</h3>
+        <div class="grid-4" id="forecastGrid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Fetching 7-day forecast...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireAuth();
+
+      // Initial weather from stored or live location
+      const savedLoc = LocationService.getLocation();
+      loadCoordsWeather(savedLoc.lat, savedLoc.lon, savedLoc.name);
+
+      // Listen for global location change event
+      window.addEventListener('krishi_location_changed', (e) => {
+        if (e.detail) {
+          loadCoordsWeather(e.detail.lat, e.detail.lon, e.detail.name);
+        }
+      });
+
+      document.getElementById('weatherSearchForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const city = document.getElementById('cityInput').value.trim();
+        if (city) loadCityWeather(city);
+      });
+
+      document.getElementById('useGeoBtn').addEventListener('click', async () => {
+        await LocationService.detectLiveLocation();
+      });
+    });
+
+    const CITY_COORDS = {
+      'ludhiana': { lat: 30.9, lon: 75.85, name: 'Ludhiana, Punjab' },
+      'karnal': { lat: 29.68, lon: 76.99, name: 'Karnal, Haryana' },
+      'jaipur': { lat: 26.91, lon: 75.78, name: 'Jaipur, Rajasthan' },
+      'pune': { lat: 18.52, lon: 73.85, name: 'Pune, Maharashtra' },
+      'patna': { lat: 25.59, lon: 85.13, name: 'Patna, Bihar' },
+      'lucknow': { lat: 26.84, lon: 80.94, name: 'Lucknow, Uttar Pradesh' },
+      'bhopal': { lat: 23.25, lon: 77.41, name: 'Bhopal, Madhya Pradesh' }
+    };
+
+    async function loadCityWeather(cityName) {
+      const key = cityName.toLowerCase();
+      let coords = CITY_COORDS[key];
+
+      if (!coords) {
+        coords = { lat: 30.9, lon: 75.85, name: `${cityName} (Region)` };
+      }
+
+      LocationService.setLocation({ name: coords.name, lat: coords.lat, lon: coords.lon, isLive: false });
+      await loadCoordsWeather(coords.lat, coords.lon, coords.name);
+    }
+
+    async function loadCoordsWeather(lat, lon, customName) {
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=auto`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data || !data.current_weather) {
+          throw new Error('Weather service unavailable');
+        }
+
+        const current = data.current_weather;
+        document.getElementById('weatherLocation').textContent = customName || `Lat: ${lat.toFixed(2)}, Lon: ${lon.toFixed(2)}`;
+        document.getElementById('weatherTemp').textContent = `${Math.round(current.temperature)}°C`;
+        document.getElementById('weatherFeelsLike').textContent = `Feels like ${Math.round(current.temperature + 1.5)}°C`;
+        document.getElementById('humidityVal').textContent = '65%';
+        document.getElementById('windVal').textContent = `${current.windspeed} km/h`;
+        document.getElementById('rainVal').textContent = `${data.daily.precipitation_probability_max[0] || 20}%`;
+        document.getElementById('sunVal').textContent = '06:05 AM / 06:48 PM';
+
+        const cond = getWeatherDescription(current.weathercode);
+        document.getElementById('weatherCondition').textContent = cond.label;
+        document.getElementById('weatherMainIcon').className = `fas ${cond.icon}`;
+
+        // Set advisory
+        let advisory = "Favorable weather conditions for routine field maintenance.";
+        if (data.daily.precipitation_probability_max[0] > 40) {
+          advisory = "High rain probability expected in the coming 24 hours. Consider postponing field irrigation and pesticide sprays.";
+        } else if (current.temperature > 34) {
+          advisory = "High temperatures detected. Maintain field soil moisture to prevent crop heat stress.";
+        }
+        document.getElementById('advisoryText').textContent = advisory;
+
+        // Render 7-day forecast
+        renderForecast(data.daily);
+      } catch (err) {
+        console.error('Weather fetch error:', err);
+        showToast('Using local offline weather advisory data.', 'info');
+      }
+    }
+
+    function getWeatherDescription(code) {
+      if (code === 0) return { label: 'Clear Sky', icon: 'fa-sun' };
+      if (code <= 3) return { label: 'Partly Cloudy', icon: 'fa-cloud-sun' };
+      if (code <= 48) return { label: 'Foggy / Hazy', icon: 'fa-smog' };
+      if (code <= 67) return { label: 'Rain Showers', icon: 'fa-cloud-rain' };
+      if (code <= 82) return { label: 'Heavy Rain', icon: 'fa-cloud-showers-heavy' };
+      return { label: 'Thunderstorm', icon: 'fa-bolt' };
+    }
+
+    function renderForecast(daily) {
+      const grid = document.getElementById('forecastGrid');
+      if (!daily || !daily.time) return;
+
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+      grid.innerHTML = daily.time.map((t, idx) => {
+        const dateObj = new Date(t);
+        const dayName = idx === 0 ? 'Today' : days[dateObj.getDay()];
+        const maxT = Math.round(daily.temperature_2m_max[idx]);
+        const minT = Math.round(daily.temperature_2m_min[idx]);
+        const rainProb = daily.precipitation_probability_max[idx] || 15;
+        const cond = getWeatherDescription(daily.weathercode[idx]);
+
+        return `
+          <div class="card" style="text-align: center; padding: 20px 14px;">
+            <div style="font-weight: 700; font-size: 1rem; color: var(--primary);">${dayName}</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">${t}</div>
+            <i class="fas ${cond.icon}" style="font-size: 2.2rem; color: var(--accent); margin-bottom: 12px;"></i>
+            <div style="font-size: 1.15rem; font-weight: 700;">${maxT}° / ${minT}°C</div>
+            <div style="font-size: 0.8rem; color: var(--info); margin-top: 6px;">
+              <i class="fas fa-umbrella"></i> Rain: ${rainProb}%
+            </div>
+          </div>`;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

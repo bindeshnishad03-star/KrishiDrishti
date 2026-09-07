@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item active"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Agri Inputs Marketplace</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+
+          <button class="btn btn-outline" id="cartBtn">
+            <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+          </button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Category Tabs -->
+        <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px;">
+          <button class="btn btn-sm btn-accent cat-tab active" data-cat="ALL">All Categories</button>
+          <button class="btn btn-sm btn-outline cat-tab" data-cat="Seeds">Certified Seeds</button>
+          <button class="btn btn-sm btn-outline cat-tab" data-cat="Fertilizers">Fertilizers & Bio</button>
+          <button class="btn btn-sm btn-outline cat-tab" data-cat="Pesticides">Crop Protection</button>
+          <button class="btn btn-sm btn-outline cat-tab" data-cat="Tools">Farm Tools</button>
+          <button class="btn btn-sm btn-outline cat-tab" data-cat="Irrigation">Irrigation Kits</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid-4" id="productsGrid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Loading products catalog...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);"><i class="fas fa-shopping-cart"></i> My Order Cart</h3>
+        <button class="modal-close" id="closeCartModal">&times;</button>
+      </div>
+
+      <div id="cartItemsList" style="max-height: 280px; overflow-y: auto; margin-bottom: 20px;">
+        <div style="text-align: center; color: var(--text-muted); padding: 20px;">Your cart is empty.</div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700;">
+          <span>Total Amount:</span>
+          <span style="color: var(--primary);" id="cartTotal">₹0</span>
+        </div>
+      </div>
+
+      <div style="padding: 10px; background: var(--warning-light); border-radius: 8px; font-size: 0.8rem; color: #92400e; margin-bottom: 16px; text-align: center;">
+        <strong>Demo Notice:</strong> Payment gateway simulation only. No real transactions take place.
+      </div>
+
+      <button id="checkoutBtn" class="btn btn-primary" style="width: 100%; padding: 12px;" disabled>
+        <i class="fas fa-check-circle"></i> Place Demo Order
+      </button>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let products = [];
+    let cart = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+      await loadProducts();
+
+      // Category filter clicks
+      document.querySelectorAll('.cat-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cat-tab').forEach(b => {
+            b.classList.remove('active', 'btn-accent');
+            b.classList.add('btn-outline');
+          });
+          btn.classList.add('active', 'btn-accent');
+          btn.classList.remove('btn-outline');
+
+          const cat = btn.getAttribute('data-cat');
+          renderProducts(cat === 'ALL' ? products : products.filter(p => p.category === cat));
+        });
+      });
+
+      // Cart Modal
+      const cartModal = document.getElementById('cartModal');
+      document.getElementById('cartBtn').addEventListener('click', () => cartModal.classList.add('active'));
+      document.getElementById('closeCartModal').addEventListener('click', () => cartModal.classList.remove('active'));
+
+      document.getElementById('checkoutBtn').addEventListener('click', () => {
+        showToast('Demo order submitted successfully!', 'success');
+        cart = [];
+        updateCartUI();
+        cartModal.classList.remove('active');
+      });
+    });
+
+    async function loadProducts() {
+      try {
+        products = await fetchAPI('/products');
+        renderProducts(products);
+      } catch (err) {
+        showToast('Using sample marketplace catalog.', 'info');
+      }
+    }
+
+    function renderProducts(items) {
+      const grid = document.getElementById('productsGrid');
+
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div class="card" style="grid-column: 1 / -1;"><div class="state-box"><div class="state-title">No Products Found</div></div></div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="height: 140px; background: var(--mint-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--primary); margin-bottom: 16px;">
+              <i class="${getProductIcon(p.category)}"></i>
+            </div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">${p.category}</div>
+            <h3 style="font-size: 1.05rem; margin: 4px 0 8px 0; color: var(--primary);">${p.name}</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">${p.description || 'High-grade agriculture input certified for Indian farms.'}</p>
+          </div>
+
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;">₹${p.price} <span style="font-size: 0.75rem; font-weight: 400; color: var(--text-muted);">/ ${p.unit || 'pack'}</span></div>
+            <button onclick="addToCart(${p.id})" class="btn btn-accent" style="width: 100%;"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          </div>
+        </div>`).join('');
+    }
+
+    function getProductIcon(cat) {
+      if (cat === 'Seeds') return 'fas fa-seedling';
+      if (cat === 'Fertilizers') return 'fas fa-vial';
+      if (cat === 'Pesticides') return 'fas fa-spray-can';
+      if (cat === 'Tools') return 'fas fa-tools';
+      return 'fas fa-box';
+    }
+
+    function addToCart(pId) {
+      const prod = products.find(p => p.id === pId);
+      if (!prod) return;
+      cart.push(prod);
+      updateCartUI();
+      showToast(`Added ${prod.name} to cart`, 'success');
+    }
+
+    function updateCartUI() {
+      document.getElementById('cartCount').textContent = cart.length;
+      const list = document.getElementById('cartItemsList');
+      const totalEl = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
+      if (cart.length === 0) {
+        list.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px;">Your cart is empty.</div>`;
+        totalEl.textContent = '₹0';
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      let total = 0;
+      list.innerHTML = cart.map((item, idx) => {
+        total += item.price;
+        return `
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-light);">
+            <div>
+              <div style="font-weight: 600; font-size: 0.9rem;">${item.name}</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">₹${item.price}</div>
+            </div>
+            <button onclick="removeFromCart(${idx})" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+          </div>`;
+      }).join('');
+
+      totalEl.textContent = `₹${total}`;
+      checkoutBtn.disabled = false;
+    }
+
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      updateCartUI();
+    }
+  </script>
+</body>
+</html>

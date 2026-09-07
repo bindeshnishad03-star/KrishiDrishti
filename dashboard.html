@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title" data-i18n="brand_name">KrishiDrishti</div>
+          <div class="brand-tagline" data-i18n="tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item active"><i class="fas fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> <span data-i18n="nav_crops">My Crops</span></a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> <span data-i18n="nav_ai">AI Assistant</span></a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> <span data-i18n="nav_disease">Disease Detection</span></a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> <span data-i18n="nav_weather">Weather Insights</span></a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> <span data-i18n="nav_mandi">Mandi Prices</span></a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> <span data-i18n="nav_marketplace">Marketplace</span></a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> <span data-i18n="nav_equipment">Equipment</span></a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> <span data-i18n="nav_community">Farmer Community</span></a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> <span data-i18n="nav_schemes">Government Schemes</span></a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> <span data-i18n="nav_settings">Settings</span></a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1 data-i18n="nav_dashboard">Farmer Overview</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector (13 Indian Languages) -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+
+          <a href="/notifications.html" class="header-action-btn" title="Notifications">
+            <i class="fas fa-bell"></i>
+            <span class="badge-dot"></span>
+          </a>
+          <a href="/settings.html" class="header-action-btn" title="Profile Settings">
+            <i class="fas fa-user-cog"></i>
+          </a>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+
+        <!-- Welcome Banner -->
+        <div class="card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: #ffffff; border: none;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h2 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 6px;"><span data-i18n="welcome_farmer">Welcome back</span>, <span class="user-name">Farmer</span>! 🌾</h2>
+              <p style="color: var(--mint); font-size: 0.95rem;" data-i18n="smart_farming_summary">Here is your smart farming summary for today. Your crops are being monitored.</p>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button onclick="VoiceService.speakElementText('.page-content')" class="voice-speak-btn" style="background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.3);">
+                <i class="fas fa-volume-up"></i> <span data-i18n="btn_listen">Listen Page</span>
+              </button>
+              <a href="/disease-detection.html" class="btn btn-accent"><i class="fas fa-camera"></i> <span data-i18n="btn_scan_disease">Scan Crop Disease</span></a>
+              <a href="/crops.html" class="btn btn-outline" style="color: #fff; border-color: rgba(255,255,255,0.4);"><i class="fas fa-plus"></i> <span data-i18n="btn_add_crop">Add Crop</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="grid-4">
+          <div class="stat-card">
+            <div class="stat-icon-wrapper green"><i class="fas fa-seedling"></i></div>
+            <div class="stat-details">
+              <h3 data-i18n="stat_total_crops">TOTAL CROPS</h3>
+              <div class="stat-number" id="statTotalCrops">0</div>
+              <div class="stat-meta">Active Field Plots</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper green"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-details">
+              <h3 data-i18n="stat_healthy_crops">HEALTHY CROPS</h3>
+              <div class="stat-number" id="statHealthyCrops">0</div>
+              <div class="stat-meta">Good Condition</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper amber"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="stat-details">
+              <h3 data-i18n="stat_needs_attention">NEEDS ATTENTION</h3>
+              <div class="stat-number" id="statAttentionCrops">0</div>
+              <div class="stat-meta">Requires Action</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper blue"><i class="fas fa-calendar-check"></i></div>
+            <div class="stat-details">
+              <h3 data-i18n="stat_upcoming_harvest">UPCOMING HARVEST</h3>
+              <div class="stat-number" id="statUpcomingHarvest">0</div>
+              <div class="stat-meta">Next 30 Days</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions & Weather/Mandi Grid -->
+        <div class="grid-3" style="margin-top: 24px;">
+          
+          <!-- Weather Widget Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-cloud-sun"></i> <span data-i18n="card_weather_advisory">Weather Advisory</span></div>
+              <div>
+                <button onclick="VoiceService.speakElementText('#dashWeatherBox')" class="voice-speak-btn"><i class="fas fa-volume-up"></i></button>
+                <a href="/weather.html" class="btn btn-sm btn-outline" data-i18n="btn_details">Details</a>
+              </div>
+            </div>
+            <div id="dashWeatherBox">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-size: 2.2rem; font-weight: 700; color: var(--primary);" id="dashTemp">28°C</div>
+                  <div style="color: var(--text-muted); font-size: 0.9rem;" id="dashWeatherDesc">Partly Cloudy</div>
+                </div>
+                <i class="fas fa-sun" style="font-size: 3rem; color: #f59e0b;"></i>
+              </div>
+              <div style="margin-top: 16px; padding: 12px; background: var(--mint-light); border-radius: var(--radius-md); font-size: 0.85rem; color: var(--primary);">
+                <i class="fas fa-lightbulb" style="color: var(--accent);"></i> <strong>Smart Farming Tip:</strong> Rain forecasted in 48 hours. Consider postponing nitrogen fertilizer application.
+              </div>
+            </div>
+          </div>
+
+          <!-- Mandi Summary Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-chart-line"></i> <span data-i18n="card_mandi_highlights">Mandi Highlights</span></div>
+              <a href="/mandi.html" class="btn btn-sm btn-outline">All Prices</a>
+            </div>
+            <div id="dashMandiBox">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr><th>Crop</th><th>Market</th><th>Modal Price</th></tr>
+                  </thead>
+                  <tbody id="dashMandiList">
+                    <tr><td>Wheat (Sonalika)</td><td>Khanna, Punjab</td><td><strong>₹2,275 / qtl</strong></td></tr>
+                    <tr><td>Paddy (Basmati)</td><td>Karnal, Haryana</td><td><strong>₹3,850 / qtl</strong></td></tr>
+                    <tr><td>Cotton (Medium)</td><td>Rajkot, Gujarat</td><td><strong>₹7,100 / qtl</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Assistant Recommendation -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fas fa-robot"></i> <span data-i18n="card_ai_advisory">Krishi AI Advisory</span></div>
+              <div>
+                <button onclick="VoiceService.speakElementText('#aiAdvText')" class="voice-speak-btn"><i class="fas fa-volume-up"></i></button>
+                <a href="/ai-assistant.html" class="btn btn-sm btn-accent" data-i18n="btn_ask_ai">Ask AI</a>
+              </div>
+            </div>
+            <div id="aiAdvText" style="background: var(--bg-main); padding: 14px; border-radius: var(--radius-md); font-size: 0.88rem; line-height: 1.5; border-left: 4px solid var(--accent);">
+              <p style="margin-bottom: 8px;"><strong>Season Recommendation:</strong></p>
+              <p style="color: var(--text-main);">Ensure optimal field drainage for Kharif crops. Check leaf undersides for aphid infestations during warm humid mornings.</p>
+            </div>
+            <div style="margin-top: 14px; font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+              <i class="fas fa-info-circle"></i> General agricultural advice. Consult local krishi vigyan kendra for field action.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- My Crops Activity Overview -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-seedling"></i> <span data-i18n="card_active_crops">Active Crops Overview</span></div>
+            <a href="/crops.html" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Manage Crops</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Crop Name</th>
+                  <th>Field Name</th>
+                  <th>Area (Acres)</th>
+                  <th>Sowing Date</th>
+                  <th>Expected Harvest</th>
+                  <th>Health Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashCropsTableBody">
+                <tr>
+                  <td colspan="7" class="state-box">
+                    <div class="spinner"></div>
+                    <div class="state-desc">Loading your active crops...</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+
+      try {
+        const crops = await fetchAPI('/crops');
+        renderDashboardCrops(crops);
+      } catch (err) {
+        console.error('Error fetching dashboard crops:', err);
+        document.getElementById('dashCropsTableBody').innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">
+              No crop data loaded or backend offline. <a href="/crops.html">Add your first crop here</a>.
+            </td>
+          </tr>`;
+      }
+    });
+
+    function renderDashboardCrops(crops) {
+      const tbody = document.getElementById('dashCropsTableBody');
+      const totalEl = document.getElementById('statTotalCrops');
+      const healthyEl = document.getElementById('statHealthyCrops');
+      const attentionEl = document.getElementById('statAttentionCrops');
+      const harvestEl = document.getElementById('statUpcomingHarvest');
+
+      if (!crops || crops.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">
+              No crops found in your portfolio. Click "Manage Crops" above to register your fields.
+            </td>
+          </tr>`;
+        totalEl.textContent = '0';
+        healthyEl.textContent = '0';
+        attentionEl.textContent = '0';
+        harvestEl.textContent = '0';
+        return;
+      }
+
+      totalEl.textContent = crops.length;
+      let healthyCount = 0;
+      let attentionCount = 0;
+      let harvestCount = 0;
+
+      const now = new Date();
+      const thirtyDays = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+      tbody.innerHTML = crops.slice(0, 5).map(c => {
+        if (c.health === 'Healthy') healthyCount++;
+        else attentionCount++;
+
+        if (c.harvest_date) {
+          const hDate = new Date(c.harvest_date);
+          if (hDate >= now && hDate <= thirtyDays) harvestCount++;
+        }
+
+        let badgeClass = 'badge-success';
+        if (c.health === 'Needs Attention') badgeClass = 'badge-warning';
+        if (c.health === 'Diseased') badgeClass = 'badge-danger';
+
+        return `
+          <tr>
+            <td><strong>${c.crop_name}</strong> <span style="font-size: 0.78rem; color: var(--text-muted);">(${c.variety || 'Standard'})</span></td>
+            <td>${c.field_name || 'Main Field'}</td>
+            <td>${c.area} Acres</td>
+            <td>${c.sowing_date || 'N/A'}</td>
+            <td>${c.harvest_date || 'N/A'}</td>
+            <td><span class="badge ${badgeClass}">${c.health || 'Healthy'}</span></td>
+            <td><a href="/crops.html" class="btn btn-sm btn-outline">View</a></td>
+          </tr>`;
+      }).join('');
+
+      healthyEl.textContent = healthyCount;
+      attentionEl.textContent = attentionCount;
+      harvestEl.textContent = harvestCount;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Equipment - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item active"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Farm Machinery & Equipment Rental</h1>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+        </div>
+
+      <main class="page-content">
+
+        <!-- Equipment Grid -->
+        <div class="grid-3" id="equipmentGrid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Loading machinery directory...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Contact Provider Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color: var(--primary);"><i class="fas fa-phone-alt"></i> Contact Equipment Provider</h3>
+        <button class="modal-close" id="closeContactModal">&times;</button>
+      </div>
+
+      <div style="padding: 16px; background: var(--mint-light); border-radius: var(--radius-md); margin-bottom: 20px;">
+        <div style="font-weight: 700; font-size: 1.1rem; color: var(--primary);" id="modalEqName">Mahindra 575 DI Tractor</div>
+        <div style="font-size: 0.88rem; color: var(--text-muted);" id="modalEqProvider">Provider: Kisan Machinery Hub</div>
+        <div style="font-size: 0.88rem; color: var(--text-muted);" id="modalEqLocation">Location: Ludhiana, Punjab</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Rental Duration (Days)</label>
+        <input type="number" id="rentalDays" class="form-control" value="2" min="1">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Message / Delivery Address</label>
+        <textarea id="contactMsg" class="form-control" rows="3" placeholder="Please contact me to confirm tractor delivery to my plot at Samrala village..."></textarea>
+      </div>
+
+      <button id="submitInquiryBtn" class="btn btn-primary" style="width: 100%; padding: 12px;">
+        <i class="fas fa-paper-plane"></i> Send Booking Inquiry
+      </button>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let equipmentList = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+      await loadEquipment();
+
+      const modal = document.getElementById('contactModal');
+      document.getElementById('closeContactModal').addEventListener('click', () => modal.classList.remove('active'));
+
+      document.getElementById('submitInquiryBtn').addEventListener('click', () => {
+        showToast('Inquiry sent to equipment provider! They will contact your phone.', 'success');
+        modal.classList.remove('active');
+      });
+    });
+
+    async function loadEquipment() {
+      try {
+        equipmentList = await fetchAPI('/equipment');
+        renderEquipment(equipmentList);
+      } catch (err) {
+        showToast('Using sample machinery listings.', 'info');
+      }
+    }
+
+    function renderEquipment(items) {
+      const grid = document.getElementById('equipmentGrid');
+
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div class="card" style="grid-column: 1 / -1;"><div class="state-box"><div class="state-title">No Machinery Available</div></div></div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(eq => `
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="height: 150px; background: var(--bg-main); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--primary); margin-bottom: 16px;">
+              <i class="${getEquipmentIcon(eq.category)}"></i>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span class="badge badge-info">${eq.category}</span>
+              <span class="badge badge-success">${eq.availability || 'Available'}</span>
+            </div>
+            <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 6px;">${eq.name}</h3>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+              <div><i class="fas fa-user"></i> Provider: ${eq.provider || 'Local Ag Hub'}</div>
+              <div><i class="fas fa-map-marker-alt"></i> Location: ${eq.location || 'Punjab'}</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--mint-light); padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;">
+              <div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">RENTAL RATE</div>
+                <div style="font-weight: 700; color: var(--primary); font-size: 1.1rem;">₹${eq.rental_price} / day</div>
+              </div>
+              <div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">BUY PRICE</div>
+                <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem;">₹${eq.buy_price}</div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+              <button onclick="openInquiry('${eq.name}', '${eq.provider}', '${eq.location}')" class="btn btn-primary" style="flex: 1;"><i class="fas fa-key"></i> Rent Equipment</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    function getEquipmentIcon(cat) {
+      if (cat === 'Tractor') return 'fas fa-tractor';
+      if (cat === 'Harvester') return 'fas fa-truck-monster';
+      if (cat === 'Sprayer') return 'fas fa-spray-can';
+      return 'fas fa-cogs';
+    }
+
+    function openInquiry(name, provider, loc) {
+      document.getElementById('modalEqName').textContent = name;
+      document.getElementById('modalEqProvider').textContent = `Provider: ${provider}`;
+      document.getElementById('modalEqLocation').textContent = `Location: ${loc}`;
+      document.getElementById('contactModal').classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mandi Prices - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item active"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+        </div>  <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Mandi Commodity Rates & Trends</h1>
+          </div>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-banner">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            <strong>Mandi Rates Notice:</strong> Market prices are synchronized daily from regional market committees. Rates may vary slightly based on quality grade and moisture percentage.
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="card" style="padding: 16px 24px;">
+          <div class="grid-4" style="gap: 16px;">
+            <div>
+              <label class="form-label">Crop Commodity</label>
+              <select id="mandiCropFilter" class="form-select">
+                <option value="ALL">All Commodities</option>
+                <option value="Wheat">Wheat (गेहूँ)</option>
+                <option value="Paddy">Paddy / Basmati (धान)</option>
+                <option value="Cotton">Cotton (कपास)</option>
+                <option value="Mustard">Mustard (सरसों)</option>
+                <option value="Maize">Maize (मक्का)</option>
+                <option value="Potato">Potato (आलू)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">State</label>
+              <select id="mandiStateFilter" class="form-select">
+                <option value="ALL">All States</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Search Market</label>
+              <input type="text" id="mandiSearchInput" class="form-control" placeholder="e.g. Khanna, Karnal, Rajkot...">
+            </div>
+
+            <div style="display: flex; align-items: flex-end;">
+              <button id="resetMandiBtn" class="btn btn-secondary" style="width: 100%;"><i class="fas fa-sync"></i> Reset Filters</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Summary Cards -->
+        <div class="grid-3">
+          <div class="stat-card">
+            <div class="stat-icon-wrapper green"><i class="fas fa-arrow-up"></i></div>
+            <div class="stat-details">
+              <h3>HIGHEST MODAL PRICE</h3>
+              <div class="stat-number" id="bestPriceVal">₹7,250 / qtl</div>
+              <div class="stat-meta" id="bestPriceMeta">Cotton (Rajkot, Gujarat)</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper amber"><i class="fas fa-arrow-down"></i></div>
+            <div class="stat-details">
+              <h3>LOWEST MODAL PRICE</h3>
+              <div class="stat-number" id="lowestPriceVal">₹1,450 / qtl</div>
+              <div class="stat-meta" id="lowestPriceMeta">Potato (Agra, UP)</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper blue"><i class="fas fa-balance-scale"></i></div>
+            <div class="stat-details">
+              <h3>AVERAGE MANDI RATE</h3>
+              <div class="stat-number" id="avgPriceVal">₹3,410 / qtl</div>
+              <div class="stat-meta">Across 24 Active Mandis</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Card -->
+        <div class="card" style="margin-top: 24px;">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-chart-line"></i> 7-Day Price Trend (Wheat vs Paddy vs Cotton)</div>
+          </div>
+          <div style="height: 300px; position: relative;">
+            <canvas id="mandiChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fas fa-table"></i> Daily Mandi Price Directory</div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Crop / Commodity</th>
+                  <th>Market (Mandi)</th>
+                  <th>State</th>
+                  <th>Min Price</th>
+                  <th>Max Price</th>
+                  <th>Modal Price</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="mandiTableBody">
+                <tr>
+                  <td colspan="7" class="state-box">
+                    <div class="spinner"></div>
+                    <div class="state-desc">Loading Mandi rates...</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let mandiData = [];
+    let mandiChart = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      Auth.requireAuth();
+      initChart();
+      await loadMandiData();
+
+      document.getElementById('mandiCropFilter').addEventListener('change', filterMandi);
+      document.getElementById('mandiStateFilter').addEventListener('change', filterMandi);
+      document.getElementById('mandiSearchInput').addEventListener('input', filterMandi);
+      document.getElementById('resetMandiBtn').addEventListener('click', () => {
+        document.getElementById('mandiCropFilter').value = 'ALL';
+        document.getElementById('mandiStateFilter').value = 'ALL';
+        document.getElementById('mandiSearchInput').value = '';
+        filterMandi();
+      });
+    });
+
+    async function loadMandiData() {
+      try {
+        mandiData = await fetchAPI('/mandi');
+        renderMandiTable(mandiData);
+      } catch (err) {
+        showToast('Using local seed Mandi data.', 'info');
+      }
+    }
+
+    function filterMandi() {
+      const crop = document.getElementById('mandiCropFilter').value;
+      const state = document.getElementById('mandiStateFilter').value;
+      const search = document.getElementById('mandiSearchInput').value.toLowerCase();
+
+      const filtered = mandiData.filter(m => {
+        const matchesCrop = crop === 'ALL' || (m.crop || '').toLowerCase() === crop.toLowerCase();
+        const matchesState = state === 'ALL' || (m.state || '').toLowerCase() === state.toLowerCase();
+        const matchesSearch = (m.market || '').toLowerCase().includes(search) || (m.crop || '').toLowerCase().includes(search);
+        return matchesCrop && matchesState && matchesSearch;
+      });
+
+      renderMandiTable(filtered);
+    }
+
+    function renderMandiTable(data) {
+      const tbody = document.getElementById('mandiTableBody');
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">
+              No market price records found matching filters.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map(m => `
+        <tr>
+          <td><strong>${m.crop}</strong></td>
+          <td>${m.market}</td>
+          <td>${m.state}</td>
+          <td>₹${m.min_price}</td>
+          <td>₹${m.max_price}</td>
+          <td><strong style="color: var(--primary);">₹${m.modal_price} / qtl</strong></td>
+          <td>${m.date || 'Today'}</td>
+        </tr>`).join('');
+    }
+
+    function initChart() {
+      const ctx = document.getElementById('mandiChart').getContext('2d');
+      mandiChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [
+            {
+              label: 'Wheat (₹/qtl)',
+              data: [2210, 2225, 2240, 2250, 2265, 2270, 2275],
+              borderColor: '#1b4332',
+              backgroundColor: 'rgba(27, 67, 50, 0.05)',
+              tension: 0.3,
+              fill: true
+            },
+            {
+              label: 'Paddy Basmati (₹/qtl)',
+              data: [3750, 3780, 3800, 3810, 3830, 3840, 3850],
+              borderColor: '#40916c',
+              backgroundColor: 'transparent',
+              tension: 0.3
+            },
+            {
+              label: 'Cotton (₹/qtl)',
+              data: [6950, 6980, 7020, 7050, 7080, 7100, 7120],
+              borderColor: '#f59e0b',
+              backgroundColor: 'transparent',
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top' }
+          },
+          scales: {
+            y: { grid: { color: '#f3f4f6' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

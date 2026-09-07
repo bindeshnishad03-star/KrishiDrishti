@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Crops - KrishiDrishti</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.png" alt="KrishiDrishti Logo" class="sidebar-logo">
+        <div>
+          <div class="brand-title">KrishiDrishti</div>
+          <div class="brand-tagline">Smart Farming Platform</div>
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-category">Main Menu</div>
+        <a href="/dashboard.html" class="nav-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/crops.html" class="nav-item active"><i class="fas fa-seedling"></i> My Crops</a>
+        <a href="/ai-assistant.html" class="nav-item"><i class="fas fa-robot"></i> AI Assistant</a>
+        <a href="/disease-detection.html" class="nav-item"><i class="fas fa-leaf"></i> Disease Detection</a>
+        
+        <div class="menu-category">Insights & Market</div>
+        <a href="/weather.html" class="nav-item"><i class="fas fa-cloud-sun-rain"></i> Weather Insights</a>
+        <a href="/mandi.html" class="nav-item"><i class="fas fa-store"></i> Mandi Prices</a>
+        <a href="/marketplace.html" class="nav-item"><i class="fas fa-shopping-basket"></i> Marketplace</a>
+        <a href="/equipment.html" class="nav-item"><i class="fas fa-tractor"></i> Equipment</a>
+
+        <div class="menu-category">Community & Support</div>
+        <a href="/community.html" class="nav-item"><i class="fas fa-users"></i> Farmer Community</a>
+        <a href="/schemes.html" class="nav-item"><i class="fas fa-landmark"></i> Government Schemes</a>
+        <a href="/notifications.html" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="/settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">F</div>
+          <div class="user-info">
+            <div class="user-name">Loading...</div>
+            <div class="user-role">Smart Farmer</div>
+          </div>
+          <a href="javascript:Auth.logout()" title="Logout" style="color: rgba(255,255,255,0.7);"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+          <div class="page-title-box">
+            <h1>Crop Portfolio Management</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Voice Input Mic Button -->
+          <button class="voice-mic-btn header-mic-btn" title="Click to speak input">
+            <i class="fas fa-microphone"></i> <span data-i18n="btn_mic">Voice Input</span>
+          </button>
+
+          <!-- Live Geolocation Badge -->
+          <div class="location-badge" title="Click to detect live location">
+            <i class="fas fa-map-marker-alt live-loc-icon"></i>
+            <span class="live-loc-text">Detecting Location...</span>
+          </div>
+
+          <!-- Multilingual Selector -->
+          <select class="lang-selector" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ur">اردو (Urdu)</option>
+            <option value="mai">मैथिली (Maithili)</option>
+            <option value="awa">अवधी (Awadhi)</option>
+            <option value="bun">बुंदेली (Bundeli)</option>
+            <option value="hr">हरियाणवी (Haryanvi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          </select>
+
+          <button class="btn btn-primary" id="openAddCropModal"><i class="fas fa-plus"></i> <span data-i18n="btn_add_crop">Add New Crop</span></button>
+        </div>
+      </header>
+
+      <main class="page-content">
+
+        <!-- Controls Toolbar -->
+        <div class="card" style="padding: 16px 24px; margin-bottom: 20px;">
+          <div style="display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="display: flex; gap: 12px; flex: 1; max-width: 500px;">
+              <input type="text" id="cropSearchInput" class="form-control" placeholder="Search crops by name or field..." style="padding-left: 36px;">
+              <select id="cropHealthFilter" class="form-select" style="max-width: 180px;">
+                <option value="ALL">All Health</option>
+                <option value="Healthy">Healthy</option>
+                <option value="Needs Attention">Needs Attention</option>
+                <option value="Diseased">Diseased</option>
+              </select>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.88rem;">
+              Total Registered: <strong id="totalCropCount">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crops Cards Grid -->
+        <div class="grid-3" id="cropsGrid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <div class="spinner"></div>
+              <div class="state-desc">Loading crops from database...</div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Add/Edit Crop Modal -->
+  <div class="modal-overlay" id="cropModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle" style="color: var(--primary);"><i class="fas fa-seedling"></i> Add Crop Plot</h3>
+        <button class="modal-close" id="closeCropModal">&times;</button>
+      </div>
+
+      <form id="cropForm">
+        <input type="hidden" id="cropId">
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="crop_name">Crop Name *</label>
+            <input type="text" id="crop_name" class="form-control" placeholder="Wheat / Wheat / Rice" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="variety">Variety / Hybrid</label>
+            <input type="text" id="variety" class="form-control" placeholder="HD 2967 / PB 1121">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="field_name">Field Plot Name</label>
+            <input type="text" id="field_name" class="form-control" placeholder="North Field Plot A">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="area">Field Area (Acres) *</label>
+            <input type="number" step="0.1" id="area" class="form-control" placeholder="2.5" required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="sowing_date">Sowing Date</label>
+            <input type="date" id="sowing_date" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="harvest_date">Expected Harvest Date</label>
+            <input type="date" id="harvest_date" class="form-control">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" for="soil_type">Soil Type</label>
+            <select id="soil_type" class="form-select">
+              <option value="Alluvial">Alluvial Soil</option>
+              <option value="Black Soil">Black Cotton Soil</option>
+              <option value="Red/Yellow Soil">Red Soil</option>
+              <option value="Clay Loam">Clay Loam</option>
+              <option value="Sandy Loam">Sandy Loam</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="health">Crop Health Status</label>
+            <select id="health" class="form-select">
+              <option value="Healthy">Healthy</option>
+              <option value="Needs Attention">Needs Attention</option>
+              <option value="Diseased">Diseased</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="irrigation">Irrigation Method</label>
+          <input type="text" id="irrigation" class="form-control" placeholder="Drip Irrigation / Canal Tube-well">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="notes">Notes / Observations</label>
+          <textarea id="notes" rows="2" class="form-control" placeholder="Sowed with DAP 50kg/acre. Scheduled first watering."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" id="cancelCropModal">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Crop</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let allCrops = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireAuth();
+      loadCrops();
+
+      // Modal Controls
+      const modal = document.getElementById('cropModal');
+      const openBtn = document.getElementById('openAddCropModal');
+      const closeBtn = document.getElementById('closeCropModal');
+      const cancelBtn = document.getElementById('cancelCropModal');
+      const form = document.getElementById('cropForm');
+
+      openBtn.addEventListener('click', () => {
+        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-seedling"></i> Add Crop Plot';
+        form.reset();
+        document.getElementById('cropId').value = '';
+        modal.classList.add('active');
+      });
+
+      const closeModal = () => modal.classList.remove('active');
+      closeBtn.addEventListener('click', closeModal);
+      cancelBtn.addEventListener('click', closeModal);
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('cropId').value;
+        
+        const payload = {
+          crop_name: document.getElementById('crop_name').value.trim(),
+          variety: document.getElementById('variety').value.trim(),
+          field_name: document.getElementById('field_name').value.trim(),
+          area: parseFloat(document.getElementById('area').value) || 1,
+          sowing_date: document.getElementById('sowing_date').value,
+          harvest_date: document.getElementById('harvest_date').value,
+          soil_type: document.getElementById('soil_type').value,
+          health: document.getElementById('health').value,
+          irrigation: document.getElementById('irrigation').value.trim(),
+          notes: document.getElementById('notes').value.trim()
+        };
+
+        try {
+          if (id) {
+            await fetchAPI(`/crops/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+            showToast('Crop plot updated successfully!', 'success');
+          } else {
+            await fetchAPI('/crops', { method: 'POST', body: JSON.stringify(payload) });
+            showToast('New crop plot added to your portfolio!', 'success');
+          }
+          closeModal();
+          loadCrops();
+        } catch (err) {
+          showToast(err.message || 'Failed to save crop', 'error');
+        }
+      });
+
+      // Filter Handlers
+      document.getElementById('cropSearchInput').addEventListener('input', filterCrops);
+      document.getElementById('cropHealthFilter').addEventListener('change', filterCrops);
+    });
+
+    async function loadCrops() {
+      try {
+        allCrops = await fetchAPI('/crops');
+        document.getElementById('totalCropCount').textContent = allCrops.length;
+        renderCrops(allCrops);
+      } catch (err) {
+        document.getElementById('cropsGrid').innerHTML = `
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <i class="fas fa-exclamation-triangle state-icon" style="color: var(--warning);"></i>
+              <div class="state-title">Unable to Load Crops</div>
+              <div class="state-desc">${err.message || 'Please check backend server.'}</div>
+            </div>
+          </div>`;
+      }
+    }
+
+    function filterCrops() {
+      const q = document.getElementById('cropSearchInput').value.toLowerCase();
+      const health = document.getElementById('cropHealthFilter').value;
+
+      const filtered = allCrops.filter(c => {
+        const matchesQuery = (c.crop_name || '').toLowerCase().includes(q) || (c.field_name || '').toLowerCase().includes(q);
+        const matchesHealth = health === 'ALL' || c.health === health;
+        return matchesQuery && matchesHealth;
+      });
+
+      renderCrops(filtered);
+    }
+
+    function renderCrops(crops) {
+      const grid = document.getElementById('cropsGrid');
+
+      if (!crops || crops.length === 0) {
+        grid.innerHTML = `
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="state-box">
+              <i class="fas fa-seedling state-icon"></i>
+              <div class="state-title">No Crop Plots Found</div>
+              <div class="state-desc">Start building your smart farm by clicking "Add New Crop" above.</div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = crops.map(c => {
+        let badgeClass = 'badge-success';
+        if (c.health === 'Needs Attention') badgeClass = 'badge-warning';
+        if (c.health === 'Diseased') badgeClass = 'badge-danger';
+
+        return `
+          <div class="card">
+            <div class="card-header" style="margin-bottom: 12px; padding-bottom: 8px;">
+              <div class="card-title" style="font-size: 1.1rem;">
+                <i class="fas fa-leaf"></i> ${c.crop_name}
+              </div>
+              <span class="badge ${badgeClass}">${c.health || 'Healthy'}</span>
+            </div>
+
+            <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+              <div><strong>Variety:</strong> ${c.variety || 'Standard'}</div>
+              <div><strong>Field:</strong> ${c.field_name || 'Main Plot'} (${c.area} Acres)</div>
+              <div><strong>Soil:</strong> ${c.soil_type || 'N/A'}</div>
+              <div><strong>Sowed:</strong> ${c.sowing_date || 'N/A'}</div>
+              <div><strong>Expected Harvest:</strong> ${c.harvest_date || 'N/A'}</div>
+            </div>
+
+            ${c.notes ? `<div style="background: var(--bg-main); padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 14px;">"${c.notes}"</div>` : ''}
+
+            <div style="display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border-light); padding-top: 12px;">
+              <button onclick="editCrop(${c.id})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+              <button onclick="deleteCrop(${c.id})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function editCrop(id) {
+      const crop = allCrops.find(c => c.id === id);
+      if (!crop) return;
+
+      document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Crop Plot';
+      document.getElementById('cropId').value = crop.id;
+      document.getElementById('crop_name').value = crop.crop_name || '';
+      document.getElementById('variety').value = crop.variety || '';
+      document.getElementById('field_name').value = crop.field_name || '';
+      document.getElementById('area').value = crop.area || 1;
+      document.getElementById('sowing_date').value = crop.sowing_date || '';
+      document.getElementById('harvest_date').value = crop.harvest_date || '';
+      document.getElementById('soil_type').value = crop.soil_type || 'Alluvial';
+      document.getElementById('health').value = crop.health || 'Healthy';
+      document.getElementById('irrigation').value = crop.irrigation || '';
+      document.getElementById('notes').value = crop.notes || '';
+
+      document.getElementById('cropModal').classList.add('active');
+    }
+
+    async function deleteCrop(id) {
+      if (!confirm('Are you sure you want to delete this crop record?')) return;
+      try {
+        await fetchAPI(`/crops/${id}`, { method: 'DELETE' });
+        showToast('Crop deleted successfully', 'info');
+        loadCrops();
+      } catch (err) {
+        showToast(err.message || 'Failed to delete crop', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

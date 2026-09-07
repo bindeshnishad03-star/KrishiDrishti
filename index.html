@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiDrishti - Smart Farming, Better Future</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Landing Navbar -->
+  <nav class="landing-navbar">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <img src="assets/logo.png" alt="KrishiDrishti Logo" style="width: 44px; height: 44px; border-radius: 8px;">
+      <div>
+        <h2 style="font-size: 1.3rem; margin: 0; color: var(--primary);">KrishiDrishti</h2>
+        <span style="font-size: 0.72rem; color: var(--accent); font-weight: 600;">Smart Farming, Better Future</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <!-- Multilingual Selector -->
+      <select class="lang-selector" aria-label="Select Language">
+        <option value="en">English</option>
+        <option value="hi">हिंदी (Hindi)</option>
+        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+        <option value="ur">اردو (Urdu)</option>
+        <option value="mai">मैथिली (Maithili)</option>
+        <option value="awa">अवधी (Awadhi)</option>
+        <option value="bun">बुंदेली (Bundeli)</option>
+        <option value="hr">हरियाणवी (Haryanvi)</option>
+        <option value="ta">தமிழ் (Tamil)</option>
+        <option value="kn">ಕನ್ನಡ (Kannada)</option>
+        <option value="gu">ગુજરાતી (Gujarati)</option>
+        <option value="mr">मराठी (Marathi)</option>
+        <option value="or">ଓଡ଼ିଆ (Odia)</option>
+      </select>
+
+      <a href="login.html" class="btn btn-outline" data-i18n="btn_login">Login</a>
+      <a href="register.html" class="btn btn-primary" data-i18n="btn_get_started">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="landing-hero">
+    <h1>KrishiDrishti</h1>
+    <p>An intelligent digital farming platform that helps farmers manage crops, understand weather, detect crop diseases, discover mandi prices, access government schemes, connect with other farmers, and make smarter farming decisions.</p>
+
+    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+      <a href="register.html" class="btn btn-accent btn-lg"><i class="fas fa-user-plus"></i> Join KrishiDrishti Today</a>
+      <a href="#features" class="btn btn-outline btn-lg" style="color: #fff; border-color: #fff;"><i class="fas fa-compass"></i> Explore Features</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="num">10+</div>
+        <div class="label">Smart Farming Tools</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">AI-Powered</div>
+        <div class="label">Disease Diagnosis</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">Live / Advisory</div>
+        <div class="label">Weather Insights</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">Farmer First</div>
+        <div class="label">Community Forum</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Feature Grid Section -->
+  <section id="features" style="max-width: 1200px; margin: 60px auto; padding: 0 24px;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <h2 style="font-size: 2.2rem; margin-bottom: 12px;">Everything an Indian Farmer Needs</h2>
+      <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto;">A modern, unified platform designed specifically for modern agriculture technology in India.</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--mint); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-leaf"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">AI Disease Detection</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Upload crop leaf photos for instant diagnosis, severity scores, and treatment recommendations.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--info-light); color: var(--info); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-cloud-sun-rain"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Smart Weather</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Location-based weather forecasts with intelligent farming advisories for irrigation and harvesting.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--warning-light); color: var(--warning); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-store"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Mandi Prices</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Track crop market rates across Indian states and markets with 7-day historical price trend charts.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--success-light); color: var(--success); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">AI Agriculture Assistant</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Ask instant questions about soil health, fertilizers, crop rotation, and pest control strategy.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--mint); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Crop Management</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Track sowing dates, expected harvest periods, soil types, and crop health metrics in one dashboard.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--gold-light); color: #854d0e; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-landmark"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Government Schemes</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Access verified information on PM-KISAN, PMFBY, KCC, and state agricultural subsidy programs.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--info-light); color: var(--info); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-shopping-basket"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Agri Marketplace</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Discover certified seeds, organic fertilizers, pesticides, and farming tools with easy ordering.</p>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <div style="width: 60px; height: 60px; background: var(--mint); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px auto;">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3 style="margin-bottom: 8px;">Farmer Community</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Connect with peer farmers across India to share experiences, ask advice, and post updates.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: var(--primary); color: #ffffff; padding: 40px 24px 20px 24px; text-align: center; margin-top: 60px;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
+      <img src="assets/logo.png" alt="KrishiDrishti Logo" style="width: 36px; height: 36px; border-radius: 6px;">
+      <span style="font-size: 1.2rem; font-weight: 700;">KrishiDrishti</span>
+    </div>
+    <p style="color: var(--accent-light); font-size: 0.9rem; margin-bottom: 20px;">Smart Farming, Better Future</p>
+    <p style="color: rgba(255,255,255,0.6); font-size: 0.82rem;">&copy; 2026 KrishiDrishti Platform. All rights reserved.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
+  <script src="voice.js"></script>
+  <script src="location.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
